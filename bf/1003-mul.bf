@@ -1,160 +1,121 @@
 #include <stdio.h>
 
-#define TAPE_SIZE 30000
-
 int main() {
-    char tape[TAPE_SIZE] = {0}; // The tape used in Brainfuck
-    char *ptr = tape;           // Pointer to the current cell on the tape
+    char tape[30000] = {0};  // Assume a tape of size 30,000 cells
+    char *ptr = tape;
 
-    // Brainfuck code: [->+<]
-    (*ptr)--;
-    ptr++;
-    (*ptr)++;
-    ptr--;
+    // [->+<]
+    *ptr += 1;
+    ++ptr;
+    --ptr;
 
-    // Brainfuck code: ++++++
-    (*ptr) += 6;
+    // ++++++
+    *ptr += 6;
 
-    // Brainfuck code: >,>,<<
-    ptr++;
-    ptr++;
-    (*ptr)--;
-    ptr--;
+    // >,>,<<
+    ++ptr;
+    ++ptr;
+    --ptr;
+    --ptr;
 
-    // Brainfuck code: [ >-------- >-------- <<-]
-    while (*ptr != 0) {
-        ptr++;
-        (*ptr) -= 8;
-        ptr++;
-        (*ptr) -= 8;
-        ptr--;
-        (*ptr)--;
+    // Loop 1
+    while (*ptr) {
+        // >--------
+        // >--------
+        // <<-
+        *ptr -= 2;
+        ++ptr;
+        *ptr -= 2;
+        ++ptr;
+        --ptr;
     }
 
-    // Brainfuck code: > [ ->+>+<< ] >>
-    ptr++;
-    (*ptr)++;
-    ptr++;
-    (*ptr)++;
-    ptr++;
-    (*ptr)--;
-    ptr--;
-    ptr--;
-    (*ptr)++;
-    ptr++;
-    (*ptr)++;
-    ptr++;
+    // >
+    ++ptr;
 
-    // Brainfuck code: [ -<<+>> ]
-    ptr--;
-    (*ptr)--;
-    ptr++;
-    (*ptr)++;
-    ptr--;
-    ptr++;
-
-    // Brainfuck code: <<<-
-    ptr--;
-    ptr--;
-    (*ptr)--;
-
-    // Brainfuck code: ]
-    ptr++;
-
-    // Brainfuck code: >
-    ptr++;
-
-    // Brainfuck code: [ > [ ->+>+<< ] >> [ -<<+>> ] <<< -]
-    while (*ptr != 0) {
-        ptr++;
-        (*ptr)++;
-        ptr++;
-        (*ptr)++;
-        ptr++;
-        (*ptr)--;
-        ptr--;
-        ptr--;
-        (*ptr)++;
-        ptr++;
-        (*ptr)++;
-        ptr++;
-        (*ptr)--;
-        ptr--;
-        ptr--;
-        (*ptr)--;
+    // Loop 2
+    while (*ptr) {
+        // ->+>+<<
+        *ptr += 1;
+        ++ptr;
+        *ptr += 1;
+        ++ptr;
+        --ptr;
+        --ptr;
     }
 
-    // Brainfuck code: >>
-    ptr++;
-    ptr++;
+    // >>
+    ++ptr;
+    ++ptr;
 
-    // Brainfuck code: >>++++++++++<<
-    (*ptr) += 10;
-    ptr++;
-    ptr++;
-    (*ptr) -= 10;
-
-    // Brainfuck code: [->+>-[>+>>]>[+[-<+>]>+>>]<<<<<<]
-    while (*ptr != 0) {
-        ptr++;
-        (*ptr)--;
-        ptr++;
-        (*ptr)++;
-        ptr++;
-        ptr++;
-        while (*ptr != 0) {
-            ptr++;
-            (*ptr)++;
-            ptr++;
-            ptr++;
-            (*ptr)--;
-            ptr--;
-            ptr--;
-            (*ptr)++;
-            ptr++;
-            (*ptr)++;
-            ptr--;
-        }
-        ptr++;
-        ptr--;
-        ptr--;
-        ptr--;
-        ptr--;
-        ptr--;
+    // Loop 3
+    while (*ptr) {
+        // -<<+>>
+        *ptr -= 1;
+        --ptr;
+        *ptr += 1;
+        ++ptr;
+        --ptr;
     }
 
-    // Brainfuck code: ++++++
-    (*ptr) += 6;
+    // <<<
+    --ptr;
+    --ptr;
+    --ptr;
 
-    // Brainfuck code: [ >>>++++++++ >++++++++ <<<<-]
-    while (*ptr != 0) {
-        ptr++;
-        (*ptr) += 9;
-        ptr++;
-        (*ptr) += 8;
-        ptr--;
-        ptr--;
-        (*ptr)--;
+    // -
+    *ptr -= 1;
+
+    // >>
+    ++ptr;
+    ++ptr;
+
+    // >>++++++++++<<
+    *ptr += 10;
+    ++ptr;
+    ++ptr;
+    ++ptr;
+    ++ptr;
+    ++ptr;
+    ++ptr;
+    ++ptr;
+    ++ptr;
+    ++ptr;
+    ++ptr;
+    ++ptr;
+    --ptr;
+    --ptr;
+
+    // [->+>-[>+>>]>[+[-<+>]>+>>]<<<<<<]
+    while (*ptr) {
+        // >>>++++++++
+        // >++++++++
+        // <<<<-
+        *ptr += 3;
+        ++ptr;
+        *ptr += 8;
+        ++ptr;
+        --ptr;
     }
 
-    // Brainfuck code: >>>>.
-    ptr++;
-    ptr++;
-    ptr++;
-    printf("%c", *ptr);
+    // >>>>.
+    for (int i = 0; i < 4; ++i) {
+        putchar(*ptr);
+        ++ptr;
+    }
 
-    // Brainfuck code: <.
-    ptr--;
-    printf("%c", *ptr);
+    // <.
+    putchar(*ptr);
+    --ptr;
 
-    // Brainfuck code: >[-]
-    ptr++;
-    (*ptr) = 0;
+    // >[-]
+    *ptr = 0;
 
-    // Brainfuck code: ++++++++++.
-    ptr++;
-    (*ptr) += 10;
-    printf("%c", *ptr);
+    // ++++++++++.
+    for (int i = 0; i < 10; ++i) {
+        putchar(*ptr);
+        ++ptr;
+    }
 
     return 0;
 }
